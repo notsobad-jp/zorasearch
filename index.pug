@@ -1,0 +1,86 @@
+doctype html
+html(lang="ja")
+  head
+    include includes/_meta.pug
+  body#search
+    include includes/_header.pug
+    
+    .ui.container
+      .ui.stackable.grid
+        .ui.thirteen.wide.column
+          br.computer.only
+          h1.ui.large.header
+            | 青空文庫の全作品
+          p
+            | 青空文庫で公開されているすべての著者の全作品を、おすすめ人気順で表示しています。
+          .ui.divider
+          include includes/_search_form.pug
+          .ui.divider
+          br
+          small
+            | 1〜50件
+            | / 全#{results.totalCount}件
+          table.ui.fixed.unstackable.striped.table
+            thead
+              tr.computer.only
+                th.five.wide 作品名
+                th.four.wide 著者
+                th.four.wide 読了時間
+                th.two.wide 人気
+                th.five.wide.computer.only 書き出し
+              tr.mobile.only
+                th.six.wide
+                  small 作品名
+                th.six.wide
+                  small 著者
+                th.nine.wide
+                  small 読了時間
+                  small.right.floated 人気
+            tbody
+              each item, book_id in results.items
+                tr.computer.only
+                  td
+                    a(href="/authors/{{人物ID}}/categories/{{カテゴリ}}/books/{{作品ID}}")= item["作品名"]
+                  td
+                    a(href="/authors/{{人物ID}}/categories/all/books")
+                      = item["姓名"]
+                  td
+                    a(href="/authors/all/categories/{{カテゴリ}}/books")
+                      .ui.basic.mini.label 1時間〜
+                    = item["文字数"]
+                    small 文字
+                  td
+                    span
+                      i.icon.yellow.star
+                      i.icon.yellow.star
+                      i.icon.yellow.star
+                  td
+                    small= item["書き出し"]
+                tr.mobile.only
+                  td
+                    a(href="/authors/{{人物ID}}/categories/{{カテゴリ}}/books/{{作品ID}}")= item["作品名"]
+                  td
+                    a(href="/authors/{{人物ID}}/categories/all/books")
+                      = item["姓名"]
+                  td
+                    a(href="/authors/all/categories/{{カテゴリ}}/books")
+                      .ui.basic.mini.label 1時間〜
+                    small.right.floated
+                      span
+                        i.icon.yellow.star
+                        i.icon.yellow.star
+                        i.icon.yellow.star
+          .ui.basic.center.aligned.segment
+            nav.pagination.ui.tiny.menu
+              span.item.page.active 1
+              a.item.page(rel="next" href="/.amp?page=2") 2
+              a.item.page(href="/.amp?page=3") 3
+              span.page.gap.item
+                | ...
+              a.last.item(href="/.amp?page=297")
+                span.translation_missing(title="translation missing: ja.views.pagination.last") Last
+                
+        .ui.three.wide.column
+          include includes/_sidebar.pug
+          
+    include includes/_footer.pug

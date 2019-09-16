@@ -1,0 +1,19 @@
+.ui.secondary.scrolling.menu
+  .item(style="padding:0;")
+    i.icon.clock.outline.grey
+  a.item.active(href="/authors/all/categories/all/books") すべて
+  a.item(href="/authors/all/categories/flash/books") 5分以内
+  a.item(href="/authors/all/categories/shortshort/books") 10分以内
+  a.item(href="/authors/all/categories/short/books") 30分以内
+  a.item(href="/authors/all/categories/novelette/books") 60分以内
+  a.item(href="/authors/all/categories/novel/books") 1時間〜
+.ui.divider
+form.ui.form(action="/authors" accept-charset="UTF-8" method="get")
+  input(name="utf8" type="hidden" value="✓")
+  .ui.transparent.fluid.left.icon.input
+    i.icon.outline.user
+    input#author_name(type="text" name="author_name" placeholder="著者名")
+    input#category_id(type="hidden" name="category_id" value="all")
+    button.ui.basic.icon.button(type="submit")
+      i.icon.search
+      span.computer.only 検索
