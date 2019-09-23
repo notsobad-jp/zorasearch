@@ -1,5 +1,5 @@
 doctype html
-html(lang="ja")
+html(amp lang="ja")
   head
     include includes/_meta.pug
   body#search
@@ -83,18 +83,17 @@ html(lang="ja")
                       = item["姓名"]
                   td
                     a(href=`authors/all/categories/${item["カテゴリ"]}/books`)
-                      .ui.basic.mini.label
-                        case item["カテゴリ"]
-                          when "flash" 
-                            .ui.basic.mini.label.orange 5分以内
-                          when "shortshort"
-                            .ui.basic.mini.label.pink 10分以内
-                          when "short"
-                            .ui.basic.mini.label.blue 30分以内
-                          when "novelette"
-                            .ui.basic.mini.label.green 60分以内
-                          when "novel"
-                            .ui.basic.mini.label 1時間〜
+                      case item["カテゴリ"]
+                        when "flash" 
+                          .ui.basic.mini.label.orange 5分以内
+                        when "shortshort"
+                          .ui.basic.mini.label.pink 10分以内
+                        when "short"
+                          .ui.basic.mini.label.blue 30分以内
+                        when "novelette"
+                          .ui.basic.mini.label.green 60分以内
+                        when "novel"
+                          .ui.basic.mini.label 1時間〜
                     small.right.floated
                       span
                         if Number(item["累計アクセス数"]) >= 10000
