@@ -376,3 +376,9 @@ h1.ui.header .sub.header{font-size:1.14285714rem;}
 .ui.primary.button:hover{background-color:#1678c2;color:#fff;text-shadow:none;}
 .ui.primary.button:focus{background-color:#0d71bb;color:#fff;text-shadow:none;}
 .ui.primary.button:active{background-color:#1a69a4;color:#fff;text-shadow:none;}
+
+/* カスタム */
+.ui.form .transparent input[type=text] { border: none; }
+i.gray { color: #767676; opacity: .9; margin: auto; }
+i.yellow { color: #fbbd08; }
+i.fab { width: 1rem; }

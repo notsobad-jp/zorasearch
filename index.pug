@@ -37,7 +37,7 @@ html(lang="ja")
                   small 読了時間
                   small.right.floated 人気
             tbody
-              each item, book_id in results.items
+              each item, book_id in results.books
                 tr.computer.only
                   td
                     a(href=`/authors/${item["人物ID"]}/categories/${item["カテゴリ"]}/books/${item["作品ID"]}`)= item["作品名"]
