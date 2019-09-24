@@ -390,7 +390,6 @@ section, footer.ui.segment { padding: 50px 10px; }
 footer .ui.list>a.item { color: #fff; }
 
 amp-list { min-height: 1px; }
-amp-list > div[role="list"] { display: table; height: 100%; width: 100%; }
-.i-amphtml-layout-size-defined .i-amphtml-fill-content { position: relative; height: auto; }
+amp-list > div[role="list"] { position: relative; display: table; table-layout: fixed; height: 100%; width: 100%; }
 .table-row { display: table-row; width: 100%; }
 .table-cell { display: table-cell; }

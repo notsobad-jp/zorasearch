@@ -21,12 +21,21 @@ html(amp lang="ja")
             | 1〜50件
             | / 全#{results.totalCount}件
           
-          amp-list(layout="flex-item" src="https://api.bungomail.com/v0/books?作品著作権フラグ=なし&limit=10" items="books" load-more="manual" load-more-bookmark="links.next")
+          .table
+            .table-row
+              .table-cell 作品名
+              .table-cell 著者
+              .table-cell 読了時間
+              .table-cell 人気
+              .table-cell 書き出し
+          amp-list(layout="flex-item" height="1000" src="https://api.bungomail.com/v0/books?作品著作権フラグ=なし&limit=10" items="books" load-more="manual" load-more-bookmark="links.next" binding="no")
             template(type="amp-mustache")
               .table-row
                 .table-cell {{ 作品名 }}
                 .table-cell {{ 姓名 }}
-                .table-cell {{ カテゴリ }}
+                .table-cell {{ 文字数 }}
+                .table-cell {{ 累計アクセス数 }}
+                .table-cell {{ 書き出し }}
               
           //- table.ui.fixed.unstackable.striped.table
           //-   thead
@@ -112,23 +121,23 @@ html(amp lang="ja")
           //-                 i.fas.fa-star.yellow
           //-               if Number(item["累計アクセス数"]) >= 1
           //-                 i.fas.fa-star.yellow
-                            
-          .ui.basic.center.aligned.segment
-            nav
-              if results.links && results.links.prev
-                a.ui.basic.button(rel="prev" href=results.links.prev)
-                  i.fas.fa-chevron-left
-                  | &nbsp;
-                  | &nbsp;
-                  | Prev
-              | &nbsp;
-              | &nbsp;
-              if results.links && results.links.next
-                a.ui.basic.button(rel="next" href=results.links.next)
-                  | Next
-                  | &nbsp;
-                  | &nbsp;
-                  i.fas.fa-chevron-right
+          //- 
+          //- .ui.basic.center.aligned.segment
+          //-   nav
+          //-     if results.links && results.links.prev
+          //-       a.ui.basic.button(rel="prev" href=results.links.prev)
+          //-         i.fas.fa-chevron-left
+          //-         | &nbsp;
+          //-         | &nbsp;
+          //-         | Prev
+          //-     | &nbsp;
+          //-     | &nbsp;
+          //-     if results.links && results.links.next
+          //-       a.ui.basic.button(rel="next" href=results.links.next)
+          //-         | Next
+          //-         | &nbsp;
+          //-         | &nbsp;
+          //-         i.fas.fa-chevron-right
                 
         .ui.three.wide.column
           include includes/_sidebar.pug
