@@ -12,15 +12,17 @@ html(amp lang="ja")
         .ui.thirteen.wide.column
           br.computer.only
           h1.ui.large.header
-            | 青空文庫の全作品
+            = meta.title
           p
-            | 青空文庫で公開されているすべての著者の全作品を、おすすめ人気順で表示しています。
+            = meta.description
+            if category_id != 'all' 
+              br
+              small （〜2,000文字の作品を対象としています。 読了時間は「400字/分」の読書スピードで計算した場合の目安です）
           .ui.divider
           include includes/_search_form.pug
           .ui.divider
           br
           small
-            | 1〜50件
             | / 全#{results.totalCount}件
           
           table.ui.fixed.unstackable.striped.table

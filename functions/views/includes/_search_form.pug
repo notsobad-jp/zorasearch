@@ -1,18 +1,18 @@
 .ui.secondary.scrolling.menu
   .item(style="padding:0;")
     i.far.fa-clock.gray
-  a.item.active(href="/authors/all/categories/all/books") すべて
-  a.item(href="/authors/all/categories/flash/books") 5分以内
-  a.item(href="/authors/all/categories/shortshort/books") 10分以内
-  a.item(href="/authors/all/categories/short/books") 30分以内
-  a.item(href="/authors/all/categories/novelette/books") 60分以内
-  a.item(href="/authors/all/categories/novel/books") 1時間〜
+  a.item(class={active: category=='all'} href=`/authors/${author_id}/categories/all/books`) すべて
+  a.item(class={active: category=='flash'} href=`/authors/${author_id}/categories/flash/books`) 5分以内
+  a.item(class={active: category=='shortshort'} href=`/authors/${author_id}/categories/shortshort/books`) 10分以内
+  a.item(class={active: category=='short'} href=`/authors/${author_id}/categories/short/books`) 30分以内
+  a.item(class={active: category=='novelette'} href=`/authors/${author_id}/categories/novelette/books`) 60分以内
+  a.item(class={active: category=='novel'} href=`/authors/${author_id}/categories/novel/books`) 1時間〜
 .ui.divider
 form.ui.form(action="/authors" accept-charset="UTF-8" method="get")
   input(name="utf8" type="hidden" value="✓")
   .ui.transparent.fluid.left.icon.input
     i.far.fa-user.gray
-    input#author_name(type="text" name="author_name" placeholder="著者名")
+    input#author_name(type="text" name="author_name" placeholder="著者名" value=author_id)
     input#category_id(type="hidden" name="category_id" value="all")
     button.ui.basic.icon.button(type="submit")
       i.fas.fa-search.gray
