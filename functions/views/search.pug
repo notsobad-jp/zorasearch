@@ -1,0 +1,54 @@
+doctype html
+html(amp lang="ja")
+  head
+    include includes/_meta.pug
+    style
+      include ../assets/stylesheets/application.css
+  body
+    include includes/_header.pug
+    
+    .ui.container
+      .ui.stackable.grid
+        .ui.thirteen.wide.column
+          #breadcrumb
+            .ui.small.breadcrumb
+              .section
+                a(href="/")
+                  span TOP
+              | &nbsp;
+              i(class="fas fa-angle-right divider")
+              | &nbsp;
+              .section 検索結果
+              
+          .ui.warning.message
+            | 複数の著者がヒットしました。以下の候補から選択するか、キーワードを変えて再度検索してみてください。
+            
+          h1.ui.large.header
+            = meta.title
+            .sub.header= `${authors.length}件`
+          
+          .ui.secondary.segment
+            form.ui.form(action="/authors" accept-charset="UTF-8" method="GET")
+              .ui.fluid.action.input
+                input#author_name(type="text" name="keyword" placeholder="著者名" minLength=2)
+                input#category_id(type="hidden" name="categoryId" value=category.id)
+                button.ui.primary.icon.button(type="submit")
+                  i.fas.fa-search
+          
+          .ui.divider
+          
+          .ui.divided.very.relaxed.link.list
+            each author in authors
+              a.item(href=`/authors/${author["人物ID"]}/categories/all/books`)
+                = author["姓名"]
+                .right.floated.content
+                  i.fas.fa-angle-right
+          
+          br
+          br
+          
+                
+        .ui.three.wide.column
+          include includes/_sidebar.pug
+          
+    include includes/_footer.pug

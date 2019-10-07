@@ -2,9 +2,11 @@ const functions = require('firebase-functions');
 const fetch = require("node-fetch");
 const pug = require('pug');
 const express = require('express');
-
 const app = express();
 
+/***********************************************
+* Routing
+***********************************************/
 // index
 app.get('/authors/:author_id/categories/:category/books', (req, res) => {
   const baseUrl = "https://api.bungomail.com/v0";
@@ -66,7 +68,6 @@ app.get('/authors/:author_id/categories/:category/books/:book_id', (req, res) =>
         category: category,
         author: author,
         allBooksCount: allBooksCount,
-        links: {},
         book: book
       }
       const html = pug.renderFile('views/show.pug', params);
@@ -75,7 +76,42 @@ app.get('/authors/:author_id/categories/:category/books/:book_id', (req, res) =>
 });
 
 
+// search
+app.get('/authors', (req, res) => {
+  const url = `https://api.bungomail.com/v0/persons?${encodeURIComponent('姓名')}=/${encodeURIComponent(req.query.keyword)}/`;
+  fetch(url)
+    .then((response) => {
+      if(!response.ok) { return res.status(500).send(response); }
+      return response.json();
+    })
+    .then((json) => {
+      const category = new Category(req.query.categoryId);
+      // ヒットが1件だけなら直接そのページにリダイレクト
+      if(json.persons.length==1) {
+        res.redirect(`/authors/${json.persons[0]["人物ID"]}/categories/${category.id}/books`);
+      }
+      // それ以外なら検索結果画面を表示
+      let params = {
+        meta: {
+          title: `「${req.query.keyword}」の検索結果`
+        },
+        category: category,
+        authors: json.persons,
+        allBooksCount: allBooksCount
+      }
+      const html = pug.renderFile('views/search.pug', params);
+      res.status(200).send(html);
+    });
+});
 
+
+
+exports.app = functions.https.onRequest(app);
+
+
+/***********************************************
+* Methods
+***********************************************/
 const title = (author, category) => {
   const authorName = author["姓名"] || '青空文庫';
   let title = "";
@@ -140,6 +176,3 @@ class Category {
     }
   }
 }
-
-
-exports.app = functions.https.onRequest(app);

@@ -8,12 +8,11 @@
   a.item(class={active: category.id=='novelette'} href=`/authors/${author['人物ID']}/categories/novelette/books`) 60分以内
   a.item(class={active: category.id=='novel'} href=`/authors/${author['人物ID']}/categories/novel/books`) 1時間〜
 .ui.divider
-form.ui.form(action="/authors" accept-charset="UTF-8" method="get")
-  input(name="utf8" type="hidden" value="✓")
+form.ui.form(action="/authors" accept-charset="UTF-8" method="GET")
   .ui.transparent.fluid.left.icon.input
     i.far.fa-user.gray
-    input#author_name(type="text" name="author_name" placeholder="著者名" value=author['姓名'])
-    input#category_id(type="hidden" name="category_id" value="all")
+    input#author_name(type="text" name="keyword" placeholder="著者名" minLength=2 value=author['姓名'])
+    input#category_id(type="hidden" name="categoryId" value=category.id)
     button.ui.basic.icon.button(type="submit")
       i.fas.fa-search.gray
       span.computer.only &nbsp;&nbsp;検索
