@@ -1,0 +1,38 @@
+if author['人物ID'] == 'all' && category.id == 'all'
+  br.computer-only
+else
+  #breadcrumb
+    .ui.small.breadcrumb(itemscope="" itemtype="http://schema.org/BreadcrumbList")
+      .section(itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem")
+        a(itemprop="item" href="/")
+          span(itemprop="name") TOP
+        meta(content="1" itemprop="position")
+      if author["人物ID"] != 'all'
+        | &nbsp;
+        i(class="fas fa-angle-right divider")
+        | &nbsp;
+        .section(itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem")
+          a(href=`/authors/${author["人物ID"]}/categories/all/books` itemprop="item")
+            span(itemprop="name")= author["姓名"]
+          meta(content="2" itemprop="position")
+      | &nbsp;
+      i(class="fas fa-angle-right divider")
+      | &nbsp;
+      .section(itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem")
+        // book詳細があるときはリンク化、それ以外は非リンクテキスト
+        - var categoryName = (category.id=='all') ? '全作品' : `${category.name}（${category.readTime}）`;
+        if book
+          a(href=`/authors/${author["人物ID"]}/categories/${category.id}/books` itemprop="item")
+            span(itemprop="name")= categoryName
+        else
+          div(itemprop="name")= categoryName
+          meta(content=`/authors/${author["人物ID"]}/categories/${category.id}/books` itemprop="item")
+        meta(content="3" itemprop="position")
+      if book
+        | &nbsp;
+        i(class="fas fa-angle-right divider")
+        | &nbsp;
+        .section(itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem")
+          div(itemprop="name")= book["作品名"]
+          meta(content=`/authors/${author["人物ID"]}/categories/${category.id}/books/${book["作品ID"]}` itemprop="item")
+          meta(content="4" itemprop="position")

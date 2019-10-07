@@ -1,0 +1,62 @@
+doctype html
+html(amp lang="ja")
+  head
+    include includes/_meta.pug
+    style
+      include ../assets/stylesheets/application.css
+  body#search
+    include includes/_header.pug
+    
+    .ui.container
+      .ui.stackable.grid
+        .ui.thirteen.wide.column
+          include includes/_breadcrumb.pug
+          h1.ui.large.header
+            = book["作品名"]
+            .sub.header= book["姓名"]
+          p
+            = meta.description
+          
+          table.ui.definition.fixed.unstackable.table
+            tbody
+              tr
+                td.three.wide
+                  small 文字数
+                td.thirteen.wide
+                  .ui.basic.mini.label= category.readTime
+                  | &nbsp;&nbsp;
+                  = book["文字数"].toLocaleString()
+                  small 文字
+              tr
+                td
+                  small 人気
+                td
+                  span
+                    if Number(book["累計アクセス数"]) >= 10000
+                      i.fas.fa-star.yellow
+                      | &nbsp;
+                    if Number(book["累計アクセス数"]) >= 500
+                      i.fas.fa-star.yellow
+                      | &nbsp;
+                    if Number(book["累計アクセス数"]) >= 1
+                      i.fas.fa-star.yellow
+                      | &nbsp;&nbsp;
+                  = book["累計アクセス数"].toLocaleString()
+                  small PV
+              tr
+                td
+                  small 書き出し
+                td
+                  = book["書き出し"]
+          small ※「人気」は青空文庫の過去10年分のアクセスランキングを集計した累計アクセス数から算出しています。
+          br
+          br
+          a.ui.blue.basic.button(href=book["XHTML/HTMLファイルURL"] target="_blank") 
+            | 青空文庫で読む
+            | &nbsp;
+            i.fas.fa-external-link-alt
+                
+        .ui.three.wide.column
+          include includes/_sidebar.pug
+          
+    include includes/_footer.pug

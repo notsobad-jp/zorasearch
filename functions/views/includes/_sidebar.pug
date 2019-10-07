@@ -8,31 +8,31 @@ h4.ui.header
     a.item(href="/authors/all/categories/all/books")
       | すべて
       .right.floated.content
-        small 14,815件
+        small #{allBooksCount['all'].toLocaleString()}件
     a.item(href="/authors/all/categories/flash/books")
       | 5分以内
       .right.floated.content
-        small 4,276件
+        small #{allBooksCount['flash'].toLocaleString()}件
     a.item(href="/authors/all/categories/shortshort/books")
       | 10分以内
       .right.floated.content
-        small 2,467件
+        small #{allBooksCount['shortshort'].toLocaleString()}件
     a.item(href="/authors/all/categories/short/books")
       | 30分以内
       .right.floated.content
-        small 4,162件
+        small #{allBooksCount['short'].toLocaleString()}件
     a.item(href="/authors/all/categories/novelette/books")
       | 60分以内
       .right.floated.content
-        small 2,221件
+        small #{allBooksCount['novelette'].toLocaleString()}件
     a.item(href="/authors/all/categories/novel/books")
       | 1時間〜
       .right.floated.content
-        small 1,689件
+        small #{allBooksCount['novel'].toLocaleString()}件
 br
 h4.ui.header
   i.far.fa-user
-  | &nbsp;&nbsp;文豪
+  | &nbsp;&nbsp;人気の文豪
 .ui.segment
   .ui.divided.very.relaxed.link.list
     a.item(href="/authors/148/categories/all/books") 夏目 漱石

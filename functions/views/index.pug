@@ -10,20 +10,20 @@ html(amp lang="ja")
     .ui.container
       .ui.stackable.grid
         .ui.thirteen.wide.column
-          br.computer.only
+          include includes/_breadcrumb.pug
           h1.ui.large.header
             = meta.title
           p
             = meta.description
-            if category_id != 'all' 
+            if category.id != 'all' 
               br
-              small （〜2,000文字の作品を対象としています。 読了時間は「400字/分」の読書スピードで計算した場合の目安です）
+              small （#{category.charsCount}の作品を対象としています。 読了時間は「400字/分」の読書スピードで計算した場合の目安です）
           .ui.divider
           include includes/_search_form.pug
           .ui.divider
           br
           small
-            | / 全#{results.totalCount}件
+            | 全#{(author["作品数"][category.id] || 0).toLocaleString()}件
           
           table.ui.fixed.unstackable.striped.table
             thead
@@ -42,17 +42,15 @@ html(amp lang="ja")
                   small 読了時間
                   small.right.floated 人気
             tbody
-          
-          
               each item, book_id in results.books
                 tr.computer.only
                   td
                     a(href=`/authors/${item["人物ID"]}/categories/${item["カテゴリ"]}/books/${item["作品ID"]}`)= item["作品名"]
                   td
-                    a(href=`/authors/${item["人物ID"]}/categories/all/books`)
+                    a(href=`/authors/${item["人物ID"]}/categories/${category.id}/books`)
                       = item["姓名"]
                   td
-                    a(href=`authors/all/categories/${item["カテゴリ"]}/books`)
+                    a(href=`/authors/${author["人物ID"]}/categories/${item["カテゴリ"]}/books`)
                       case item["カテゴリ"]
                         when "flash" 
                           .ui.basic.mini.label.orange 5分以内
