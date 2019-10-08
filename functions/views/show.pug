@@ -23,7 +23,7 @@ html(amp lang="ja")
                 td.three.wide
                   small 文字数
                 td.thirteen.wide
-                  .ui.basic.mini.label= category.readTime
+                  .ui.basic.mini.label(class=category.color)= category.readTime
                   | &nbsp;&nbsp;
                   = book["文字数"].toLocaleString()
                   small 文字
@@ -54,7 +54,8 @@ html(amp lang="ja")
           a.ui.blue.basic.button(href=book["XHTML/HTMLファイルURL"] target="_blank") 
             | 青空文庫で読む
             | &nbsp;
-            i.fas.fa-external-link-alt
+            small
+              i.fas.fa-external-link-alt
                 
         .ui.three.wide.column
           include includes/_sidebar.pug

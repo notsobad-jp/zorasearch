@@ -8,10 +8,13 @@ const app = express();
 * Routing
 ***********************************************/
 // index
-app.get('/authors/:author_id/categories/:category/books', (req, res) => {
+const index = (req, res) => {
+  const authorId = req.params.authorId || 'all'
+  const categoryId = req.params.categoryId || 'all'
   const baseUrl = "https://api.bungomail.com/v0";
-  let url = (req.params.author_id == 'all') ? `${baseUrl}/books` : `${baseUrl}/persons/${req.params.author_id}/books`;
-  if(req.params.category != 'all') { req.query[encodeURIComponent('カテゴリ')] = req.params.category; }
+  let url = (authorId == 'all') ? `${baseUrl}/books` : `${baseUrl}/persons/${authorId}/books`;
+  if(categoryId != 'all') { req.query[encodeURIComponent('カテゴリ')] = categoryId; }
+  req.query["limit"] = 3; //FIXME: テスト用の件数制限
   const queries = Object.keys(req.query).map((m) => `${m}=${req.query[m]}`).join("&");
   if(queries) { url = `${url}?${queries}`; }
   fetch(url)
@@ -20,7 +23,7 @@ app.get('/authors/:author_id/categories/:category/books', (req, res) => {
       return response.json();
     })
     .then((json) => {
-      const category = new Category(req.params.category);
+      const category = new Category(categoryId);
       const author = json.person || { 人物ID: 'all', 作品数: allBooksCount };
       let params = {
         meta: {
@@ -45,11 +48,14 @@ app.get('/authors/:author_id/categories/:category/books', (req, res) => {
       const html = pug.renderFile('views/index.pug', params);
       res.status(200).send(html);
     });
-})
+}
+app.get('/', index);
+app.get('/authors/:authorId/categories/:categoryId/books', index);
+
 
 
 // show
-app.get('/authors/:author_id/categories/:category/books/:book_id', (req, res) => {
+app.get('/authors/:authorId/categories/:categoryId/books/:book_id', (req, res) => {
   const url = `https://api.bungomail.com/v0/books/${req.params.book_id}`;
   fetch(url)
     .then((response) => {
@@ -58,7 +64,7 @@ app.get('/authors/:author_id/categories/:category/books/:book_id', (req, res) =>
     })
     .then((json) => {
       const book = json.book;
-      const category = new Category(req.params.category);
+      const category = new Category(req.params.categoryId);
       const author = book;
       let params = {
         meta: {
@@ -147,31 +153,37 @@ class Category {
         this.name = '全';
         this.readTime = 'すべて';
         this.charsCount = 'すべて';
+        this.color = '';
         break;
       case 'flash':
         this.name = '短編';
         this.readTime = '5分以内';
         this.charsCount = '〜2,000文字';
+        this.color = 'orange';
         break;
       case 'shortshort':
         this.name = '短編';
         this.readTime = '10分以内';
         this.charsCount = '2,000〜4,000文字';
+        this.color = 'pink';
         break;
       case 'short':
         this.name = '短編';
         this.readTime = '30分以内';
         this.charsCount = '4,000〜12,000文字';
+        this.color = 'blue';
         break;
       case 'novelette':
         this.name = '中編';
         this.readTime = '60分以内';
         this.charsCount = '12,000〜24,000文字';
+        this.color = 'green';
         break;
       case 'novel':
         this.name = '長編';
         this.readTime = '1時間〜';
         this.charsCount = '24,000文字〜';
+        this.color = '';
         break;
     }
   }

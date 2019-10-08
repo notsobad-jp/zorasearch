@@ -10,4 +10,5 @@
       small
         i.fas.fa-question-circle
         | &nbsp;&nbsp;このサイトについて
-.ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
+if author['人物ID'] == 'all' && category.id == 'all'
+  .ui.attached.mobile.only.segment 青空文庫の作品を読了時間で検索できるサービス
