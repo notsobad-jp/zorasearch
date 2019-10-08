@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 const pug = require('pug');
 const express = require('express');
 const app = express();
+const rootUrl = 'https://search.bungomail.com';
 
 /***********************************************
 * Routing
@@ -28,7 +29,8 @@ const index = (req, res) => {
       let params = {
         meta: {
           title: title(author, category),
-          description: description(author, category)
+          description: description(author, category),
+          canonicalUrl: (authorId=='all' && categoryId=='all') ? rootUrl : `${rootUrl}${req.path}`
         },
         category: category,
         author: author,
@@ -68,8 +70,9 @@ app.get('/authors/:authorId/categories/:categoryId/books/:book_id', (req, res) =
       const author = book;
       let params = {
         meta: {
-          title: `${book["姓名"]}『${book["作品名"]}』- ${category.readTime}で読める青空文庫の${category.name}作品 | ゾラサーチ`,
-          description: `『${book["作品名"]}』は青空文庫で公開されている${book["姓名"]}の${category.name}作品。${book["文字数"].toLocaleString()}文字で、おおよそ${category.readTime}で読むことができます。`
+          title: `${book["姓名"]}『${book["作品名"]}』 - ${category.readTime}で読める青空文庫の${category.name}作品`,
+          description: `『${book["作品名"]}』は青空文庫で公開されている${book["姓名"]}の${category.name}作品。${book["文字数"].toLocaleString()}文字で、おおよそ${category.readTime}で読むことができます。`,
+          canonicalUrl: `${rootUrl}${req.path}`
         },
         category: category,
         author: author,
@@ -99,7 +102,9 @@ app.get('/authors', (req, res) => {
       // それ以外なら検索結果画面を表示
       let params = {
         meta: {
-          title: `「${req.query.keyword}」の検索結果 | ゾラサーチ`
+          title: `「${req.query.keyword}」の検索結果`,
+          canonicalUrl: `${rootUrl}${req.originalUrl}`,
+          noindex: true
         },
         category: category,
         authors: json.persons,
@@ -115,14 +120,14 @@ app.get('/authors', (req, res) => {
 app.get('/about', (req, res) => {
   let params = {
     meta: {
-      title: `ゾラサーチとは | ゾラサーチ`
+      title: `ゾラサーチとは`,
+      canonicalUrl: `${rootUrl}${req.path}`
     },
     allBooksCount: allBooksCount
   }
   const html = pug.renderFile('views/about.pug', params);
   res.status(200).send(html);
 });
-
 
 
 exports.app = functions.https.onRequest(app);
