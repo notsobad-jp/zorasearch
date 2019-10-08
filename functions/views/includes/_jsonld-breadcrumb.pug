@@ -1,0 +1,13 @@
+script(type="application/ld+json")
+  | {
+  |   "@context": "https://schema.org",
+  |   "@type": "BreadcrumbList",
+  |   "itemListElement": [
+  each bread, index in breadcrumb
+    |   {
+    |     "@type": "ListItem",
+    |     "position": #{ index + 1 },
+    |     "name": "#{ bread.name }",
+    |     "item": "#{ bread.item }"
+    |   },
+  |   ]

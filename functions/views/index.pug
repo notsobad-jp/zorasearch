@@ -2,6 +2,8 @@ doctype html
 html(amp lang="ja")
   head
     include includes/_meta.pug
+    if author["人物ID"] != 'all' || category.id != 'all'
+      include includes/_jsonld-breadcrumb.pug
   body
     include includes/_header.pug
     

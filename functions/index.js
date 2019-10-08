@@ -15,7 +15,7 @@ const index = (req, res) => {
   const baseUrl = "https://api.bungomail.com/v0";
   let url = (authorId == 'all') ? `${baseUrl}/books` : `${baseUrl}/persons/${authorId}/books`;
   if(categoryId != 'all') { req.query[encodeURIComponent('カテゴリ')] = categoryId; }
-  req.query["limit"] = 3; //FIXME: テスト用の件数制限
+  // req.query["limit"] = 3; //FIXME: テスト用の件数制限
   const queries = Object.keys(req.query).map((m) => `${m}=${req.query[m]}`).join("&");
   if(queries) { url = `${url}?${queries}`; }
   fetch(url)
@@ -36,7 +36,8 @@ const index = (req, res) => {
         author: author,
         allBooksCount: allBooksCount,
         links: {},
-        results: json
+        results: json,
+        breadcrumb: breadcrumb({author:author, category: category})
       }
 
       if(json.links) {
@@ -77,7 +78,8 @@ app.get('/authors/:authorId/categories/:categoryId/books/:book_id', (req, res) =
         category: category,
         author: author,
         allBooksCount: allBooksCount,
-        book: book
+        book: book,
+        breadcrumb: breadcrumb({book: book})
       }
       const html = pug.renderFile('views/show.pug', params);
       res.status(200).send(html);
@@ -160,6 +162,23 @@ const description = (author, category) => {
 
 const allBooksCount = {
  "all": 16353, "flash": 4633, "shortshort": 2581, "short": 4619, "novelette": 2488, "novel": 2032
+}
+
+const breadcrumb = ({author, category, book}) => {
+  const res = [];
+  res.push({ name: 'TOP', item: rootUrl });
+
+  if(book) {
+    res.push({ name: book["姓名"], item: `${rootUrl}/authors/${book["人物ID"]}/categories/all/books` });
+    const ctg = new Category(book["カテゴリ"]);
+    res.push({ name: `${ctg.name}（${ctg.readTime}）`, item: `${rootUrl}/authors/${book["人物ID"]}/categories/${book["カテゴリ"]}/books` });
+    res.push({ name: book["作品名"], item: `${rootUrl}/authors/${book["人物ID"]}/categories/${book["カテゴリ"]}/books/${book["作品ID"]}` });
+  }else {
+    if(author["人物ID"] != 'all') { res.push({ name: author["姓名"], item: `${rootUrl}/authors/${author["人物ID"]}/categories/all/books` }); }
+    const categoryName = `${category.name}（${category.readTime}）`;
+    if(category.id != 'all') { res.push({ name: categoryName, item: `${rootUrl}/authors/${author["人物ID"]}/categories/${category.id}/books` }); }
+  }
+  return res;
 }
 
 

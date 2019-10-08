@@ -1,0 +1,46 @@
+script(type="application/ld+json")
+  | {
+  |   "@context":"https://schema.org",
+  |   "@type":"Book",
+  |   "name" : "#{ book['作品名'] }",
+  |   "author": {
+  |     "@type":"Person",
+  |     "name": "#{ book['姓名']}"
+  |   },
+  |   "url" : "#{ meta.canonicalUrl }",
+  |   "workExample" : [{
+  |     "@type": "Book",
+  |     "isbn": "#{ ('0000000000' + book["作品ID"]).slice(-10) }",
+  |     "bookFormat": "https://schema.org/EBook",
+  |     "potentialAction":{
+  |       "@type":"ReadAction",
+  |       "target": {
+  |         "@type":"EntryPoint",
+  |         "urlTemplate": "#{ meta.canonicalUrl }",
+  |         "actionPlatform":[
+  |           "http://schema.org/DesktopWebPlatform",
+  |           "http://schema.org/MobileWebPlatform"
+  |         ]
+  |       },
+  |       "expectsAcceptanceOf":{
+  |         "@type":"Offer",
+  |         "Price":"0",
+  |         "priceCurrency":"JPY",
+  |         "availability": "https://schema.org/InStock"
+  |       }
+  |     }
+  |   }],
+  if book["累計アクセス数"] > 0
+    - var rating = 3;
+    if book["累計アクセス数"] > 10000
+      - rating = 5;
+    else if book["累計アクセス数"] > 500
+      - rating = 4;
+    
+    |   "aggregateRating": {
+    |     "@type": "AggregateRating",
+    |     "ratingValue": "#{ rating }",
+    |     "bestRating": "5",
+    |     "ratingCount": "#{ book["累計アクセス数"] }"
+    |   }
+    | }
