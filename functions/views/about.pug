@@ -1,0 +1,154 @@
+doctype html
+html(amp lang="ja")
+  head
+    include includes/_meta.pug
+    style
+      include ../assets/stylesheets/application.css
+  body
+    include includes/_header.pug
+    
+    .ui.container
+      .ui.stackable.grid
+        .ui.thirteen.wide.column
+          #breadcrumb
+            .ui.small.breadcrumb
+              .section
+                a(href="/")
+                  span TOP
+              | &nbsp;
+              i(class="fas fa-angle-right divider")
+              | &nbsp;
+              .section このサイトについて
+          h1.ui.large.header ゾラサーチとは
+          amp-img(src="/images/ogp.png" alt="ゾラサーチ" layout="responsive" sizes="(min-width: 400px) 400px, 92vw" width="400" height="200")
+          
+          .ui.basic.segment
+            | ゾラサーチは、青空文庫の作品を 「読了目安時間」 で検索できるサービスです。
+            br
+            | たとえば、「5分で読める夏目漱石の短編」などの条件で絞り込んで検索することができます。
+          br
+          
+          h3.ui.dividing.header
+            i.far.fa-clock
+            | &nbsp;&nbsp;
+            | 読了時間について
+          .ui.basic.segment
+            p
+              | サイト内で各作品の「読了時間」は、各作品の文字数を平均的な読書スピードとされる「400字/分」で割って計算しています。
+              br
+              | もちろん人によって読書スピードは異なるので、あくまで目安として参考にしてください。
+            p
+              | 具体的には、各カテゴリを以下の様に算出しています。
+            table.ui.unstackable.celled.table
+              thead
+                tr
+                  th 読了時間
+                  th 作品の文字数
+              tbody
+                tr
+                  td 5分以内
+                  td 〜2,000文字
+                tr
+                  td 10分以内
+                  td 2,000〜4,000文字
+                tr
+                  td 30分以内
+                  td 4,000〜12,000文字
+                tr
+                  td 60分以内
+                  td 12,000〜24,000文字
+                tr
+                  td 1時間〜
+                  td 24,000文字〜
+            p 
+              | またこのサイト内では「〜12,000文字（=30分以内）」の作品を「短編」、 「〜24,000文字（＝60分以内）」の作品を「中編」、 「24,000文字〜（＝1時間〜）」の作品を「長編」と呼んでいますが、あくまで便宜的なものです。
+              br
+              | 一般的な区分とは異なる場合がありますので、ご了承ください。
+          br
+          
+          h3.ui.dividing.header
+            i.far.fa-star
+            | &nbsp;&nbsp;
+            | 人気度について
+          .ui.basic.segment
+            p サイト内で各作品の「人気度」は、青空文庫で公開されている過去10年分のアクセスランキングを集計した累計アクセス数を基に算出しています。
+            p
+              a(href="" target="_blank")
+                | 青空文庫アクセスランキング
+                | &nbsp;
+                small
+                  i.fas.fa-external-link-alt
+            p 具体的には、各カテゴリを以下の様に算出しています。
+            table.ui.unstackable.celled.table
+              thead
+                tr
+                  th 人気
+                  th 累計アクセス(PV)数
+              tbody
+                tr
+                  td
+                    i.fas.fa-star.yellow
+                    | &nbsp;
+                    i.fas.fa-star.yellow
+                    | &nbsp;
+                    i.fas.fa-star.yellow
+                  td 10,000PV〜
+                tr
+                  td
+                    i.fas.fa-star.yellow
+                    | &nbsp;
+                    i.fas.fa-star.yellow
+                    | &nbsp;
+                    i.far.fa-star.yellow
+                  td 500PV〜
+                tr
+                  td
+                    i.fas.fa-star.yellow
+                    | &nbsp;
+                    i.far.fa-star.yellow
+                    | &nbsp;
+                    i.far.fa-star.yellow
+                  td 〜500PV
+                tr
+                  td
+                    i.far.fa-star.yellow
+                    | &nbsp;
+                    i.far.fa-star.yellow
+                    | &nbsp;
+                    i.far.fa-star.yellow
+                  td ランキング入りなし
+            p 各検索結果は、デフォルトでこの人気順（累計アクセス数順）に並んでいます。
+            p 星の数が同じ作品は詳細な累計アクセス数の順に並びます。累計アクセス数は作品詳細ページで確認できます。
+          br
+          
+          h3.ui.dividing.header
+            i.far.fa-envelope
+            | &nbsp;&nbsp;
+            | ブンゴウメールについて
+          amp-img(src="/images/bungomail.png" alt="ブンゴウメール" layout="responsive" sizes="(min-width: 400px) 400px, 92vw" width="400" height="200")
+          .ui.basic.segment
+            p
+              a.ui.basic.button(href="https://bungomail.com" target="_blank")
+                | ブンゴウメール公式サイト
+                | &nbsp;
+                small
+                  i.fas.fa-external-link-alt
+            p ゾラサーチは、「ブンゴウメール」というサービスの姉妹サービスとして運営されています。
+            p 
+              | 「ブンゴウメール」は、青空文庫の作品を小分けにして毎日3分程度のメールで配信してくれるサービスです。
+              br
+              | 忙しくて読書の時間を取れなくなった人や、ふだん文学作品を読まない人から反響を頂き、リリースから累計1万人近くのユーザーに登録いただいています。
+            p ゾラサーチは、ブンゴウメール開発の過程で青空文庫のテキストを解析したデータが大量にストックされたため、それを活用するプロジェクトとして提供しています。
+            p 詳しい開発の背景などにもし興味をお持ちいただけたら、開発者ブログをご覧ください。
+            p
+              a.ui.basic.button(href="https://blog.notsobad.jp/entry/2019/04/04/133409" target="_blank")
+                | 開発者ブログ
+                | &nbsp;
+                small
+                  i.fas.fa-external-link-alt
+          br
+                
+        .ui.three.wide.column
+          include includes/_sidebar.pug
+          
+    include includes/_footer.pug

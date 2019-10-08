@@ -387,3 +387,6 @@ i.fab { width: 1rem; }
 }
 section, footer.ui.segment { padding: 50px 10px; }
 footer .ui.list>a.item { color: #fff; }
+.ui.celled.table tr td:not(:first-child), .ui.celled.table tr th:not(:first-child) { border-left: 1px solid rgba(34,36,38,0.1); }
+.ui.dividing.header { padding-bottom: .21428571rem; border-bottom: 1px solid rgba(34,36,38,0.15); }
+h3.ui.header { font-size: 1.28571429rem; }

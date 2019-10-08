@@ -99,7 +99,7 @@ app.get('/authors', (req, res) => {
       // それ以外なら検索結果画面を表示
       let params = {
         meta: {
-          title: `「${req.query.keyword}」の検索結果`
+          title: `「${req.query.keyword}」の検索結果 | ゾラサーチ`
         },
         category: category,
         authors: json.persons,
@@ -108,6 +108,19 @@ app.get('/authors', (req, res) => {
       const html = pug.renderFile('views/search.pug', params);
       res.status(200).send(html);
     });
+});
+
+
+// about
+app.get('/about', (req, res) => {
+  let params = {
+    meta: {
+      title: `ゾラサーチとは | ゾラサーチ`
+    },
+    allBooksCount: allBooksCount
+  }
+  const html = pug.renderFile('views/about.pug', params);
+  res.status(200).send(html);
 });
 
 
