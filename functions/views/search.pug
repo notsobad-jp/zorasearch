@@ -2,8 +2,6 @@ doctype html
 html(amp lang="ja")
   head
     include includes/_meta.pug
-    style
-      include ../assets/stylesheets/application.css
   body
     include includes/_header.pug
     
@@ -28,7 +26,7 @@ html(amp lang="ja")
             .sub.header= `${authors.length}件`
           
           .ui.secondary.segment
-            form.ui.form(action="/authors" accept-charset="UTF-8" method="GET")
+            form.ui.form(action="/authors" accept-charset="UTF-8" method="GET" target="_top")
               .ui.fluid.action.input
                 input#author_name(type="text" name="keyword" placeholder="著者名" minLength=2)
                 input#category_id(type="hidden" name="categoryId" value=category.id)
