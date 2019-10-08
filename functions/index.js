@@ -58,8 +58,8 @@ app.get('/authors/:authorId/categories/:categoryId/books', index);
 
 
 // show
-app.get('/authors/:authorId/categories/:categoryId/books/:book_id', (req, res) => {
-  const url = `https://api.bungomail.com/v0/books/${req.params.book_id}`;
+app.get('/authors/:authorId/categories/:categoryId/books/:bookId', (req, res) => {
+  const url = `https://api.bungomail.com/v0/books/${req.params.bookId}`;
   fetch(url)
     .then((response) => {
       if(!response.ok) { return res.status(500).send(response); }
@@ -123,8 +123,12 @@ app.get('/about', (req, res) => {
   let params = {
     meta: {
       title: `ゾラサーチとは`,
-      canonicalUrl: `${rootUrl}${req.path}`
+      canonicalUrl: `${rootUrl}${req.path}`,
     },
+    breadcrumb: [
+      { name: 'TOP', item: rootUrl },
+      { name: 'このサイトについて', item: `${rootUrl}/about` },
+    ],
     allBooksCount: allBooksCount
   }
   const html = pug.renderFile('views/about.pug', params);
