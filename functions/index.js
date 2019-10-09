@@ -10,6 +10,7 @@ const rootUrl = 'https://search.bungomail.com';
 ***********************************************/
 // index
 const index = (req, res) => {
+  res.set('Cache-Control', 'public, max-age=31536000, s-maxage=31536000');
   const authorId = req.params.authorId || 'all'
   const categoryId = req.params.categoryId || 'all'
   const baseUrl = "https://api.bungomail.com/v0";
@@ -59,6 +60,7 @@ app.get('/authors/:authorId/categories/:categoryId/books', index);
 
 // show
 app.get('/authors/:authorId/categories/:categoryId/books/:bookId', (req, res) => {
+  res.set('Cache-Control', 'public, max-age=31536000, s-maxage=31536000');
   const url = `https://api.bungomail.com/v0/books/${req.params.bookId}`;
   fetch(url)
     .then((response) => {
@@ -120,6 +122,7 @@ app.get('/authors', (req, res) => {
 
 // about
 app.get('/about', (req, res) => {
+  res.set('Cache-Control', 'public, max-age=31536000, s-maxage=31536000');
   let params = {
     meta: {
       title: `ゾラサーチとは`,
