@@ -1,6 +1,7 @@
 doctype html
 html(amp lang="ja")
   head
+    include includes/_mixin.pug
     include includes/_meta.pug
     include includes/_jsonld-review.pug
     include includes/_jsonld-breadcrumb.pug
@@ -56,6 +57,40 @@ html(amp lang="ja")
             | &nbsp;
             small
               i.fas.fa-external-link-alt
+          br
+          br
+          .ui.divider
+            
+          div
+            h3.ui.header= `${author["姓名"]}の人気作品`
+            .ui.four.scrolling.cards
+              each item in authorBooks
+                a.ui.card(href=`/authors/${item["人物ID"]}/categories/${item["カテゴリ"]}/books/${item["作品ID"]}`)
+                  .content
+                    .header= item["作品名"]
+                    .meta= item["姓名"]
+                    .description= item["書き出し"].substring(0,10) + "..."
+                  .extra.content
+                    .right.floated
+                      + categoryLabel(item["カテゴリ"])
+                    + stars(Number(item["累計アクセス数"]))
+          br
+          br
+          div
+            - category = categoryMaster[book["カテゴリ"]];
+            h3.ui.header= `${category.name}（${category.readTime}）の人気作品`
+            .ui.four.scrolling.cards
+              each item in categoryBooks
+                a.ui.card(href=`/authors/${item["人物ID"]}/categories/${item["カテゴリ"]}/books/${item["作品ID"]}`)
+                  .content
+                    .header= item["作品名"]
+                    .meta= item["姓名"]
+                    .description= item["書き出し"].substring(0,10) + "..."
+                  .extra.content
+                    .right.floated
+                      + categoryLabel(item["カテゴリ"])
+                    + stars(Number(item["累計アクセス数"]))
+                      
                 
         .ui.three.wide.column
           include includes/_sidebar.pug

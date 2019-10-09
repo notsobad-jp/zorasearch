@@ -390,3 +390,8 @@ footer .ui.list>a.item { color: #fff; }
 .ui.celled.table tr td:not(:first-child), .ui.celled.table tr th:not(:first-child) { border-left: 1px solid rgba(34,36,38,0.1); }
 .ui.dividing.header { padding-bottom: .21428571rem; border-bottom: 1px solid rgba(34,36,38,0.15); }
 h3.ui.header { font-size: 1.28571429rem; }
+
+@media only screen and (max-width: 767px) {
+  .scrolling { flex-wrap: nowrap !important; overflow-x: scroll !important; -webkit-overflow-scrolling: touch !important; overflow-scrolling: touch !important; }
+  .scrolling>.ui.card { flex: 0 0 60% !important; }
+}

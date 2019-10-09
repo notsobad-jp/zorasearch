@@ -25,7 +25,7 @@ const index = (req, res) => {
       return response.json();
     })
     .then((json) => {
-      const category = new Category(categoryId);
+      const category = categoryMaster[categoryId];
       const author = json.person || { 人物ID: 'all', 作品数: allBooksCount };
       let params = {
         meta: {
@@ -62,14 +62,16 @@ app.get('/authors/:authorId/categories/:categoryId/books', index);
 app.get('/authors/:authorId/categories/:categoryId/books/:bookId', (req, res) => {
   res.set('Cache-Control', 'public, max-age=31536000, s-maxage=31536000');
   const url = `https://api.bungomail.com/v0/books/${req.params.bookId}`;
-  fetch(url)
-    .then((response) => {
-      if(!response.ok) { return res.status(500).send(response); }
-      return response.json();
+  const authorPopularsUrl = `https://api.bungomail.com/v0/books?${encodeURIComponent('人物ID')}=${req.params.authorId}&limit=4`;
+  const categoryPopularsUrl = `https://api.bungomail.com/v0/books?${encodeURIComponent('カテゴリ')}=${req.params.categoryId}&limit=4`;
+  Promise.all([fetch(url), fetch(authorPopularsUrl), fetch(categoryPopularsUrl)])
+    .then((results) => {
+      if(!results[0].ok) { return res.status(500).send(results[0]); }
+      return Promise.all(results.map((m) => m.json()));
     })
-    .then((json) => {
-      const book = json.book;
-      const category = new Category(req.params.categoryId);
+    .then((results) => {
+      const book = results[0].book;
+      const category = categoryMaster[req.params.categoryId];
       const author = book;
       let params = {
         meta: {
@@ -81,7 +83,10 @@ app.get('/authors/:authorId/categories/:categoryId/books/:bookId', (req, res) =>
         author: author,
         allBooksCount: allBooksCount,
         book: book,
-        breadcrumb: breadcrumb({book: book})
+        breadcrumb: breadcrumb({book: book}),
+        authorBooks: results[1].books,
+        categoryBooks: results[2].books,
+        categoryMaster: categoryMaster
       }
       const html = pug.renderFile('views/show.pug', params);
       res.status(200).send(html);
@@ -98,7 +103,7 @@ app.get('/authors', (req, res) => {
       return response.json();
     })
     .then((json) => {
-      const category = new Category(req.query.categoryId);
+      const category = categoryMaster[req.query.categoryId];
       // ヒットが1件だけなら直接そのページにリダイレクト
       if(json.persons.length==1) {
         res.redirect(`/authors/${json.persons[0]["人物ID"]}/categories/${category.id}/books`);
@@ -177,7 +182,7 @@ const breadcrumb = ({author, category, book}) => {
 
   if(book) {
     res.push({ name: book["姓名"], item: `${rootUrl}/authors/${book["人物ID"]}/categories/all/books` });
-    const ctg = new Category(book["カテゴリ"]);
+    const ctg = categoryMaster[book["カテゴリ"]];
     res.push({ name: `${ctg.name}（${ctg.readTime}）`, item: `${rootUrl}/authors/${book["人物ID"]}/categories/${book["カテゴリ"]}/books` });
     res.push({ name: book["作品名"], item: `${rootUrl}/authors/${book["人物ID"]}/categories/${book["カテゴリ"]}/books/${book["作品ID"]}` });
   }else {
@@ -189,46 +194,47 @@ const breadcrumb = ({author, category, book}) => {
 }
 
 
-class Category {
-  constructor (categoryId) {
-    this.id = categoryId;
-    switch(categoryId) {
-      case 'all':
-        this.name = '全';
-        this.readTime = 'すべて';
-        this.charsCount = 'すべて';
-        this.color = '';
-        break;
-      case 'flash':
-        this.name = '短編';
-        this.readTime = '5分以内';
-        this.charsCount = '〜2,000文字';
-        this.color = 'orange';
-        break;
-      case 'shortshort':
-        this.name = '短編';
-        this.readTime = '10分以内';
-        this.charsCount = '2,000〜4,000文字';
-        this.color = 'pink';
-        break;
-      case 'short':
-        this.name = '短編';
-        this.readTime = '30分以内';
-        this.charsCount = '4,000〜12,000文字';
-        this.color = 'blue';
-        break;
-      case 'novelette':
-        this.name = '中編';
-        this.readTime = '60分以内';
-        this.charsCount = '12,000〜24,000文字';
-        this.color = 'green';
-        break;
-      case 'novel':
-        this.name = '長編';
-        this.readTime = '1時間〜';
-        this.charsCount = '24,000文字〜';
-        this.color = '';
-        break;
-    }
+const categoryMaster = {
+  'all': {
+    id: 'all',
+    name: '全',
+    readTime: 'すべて',
+    charsCount: 'すべて',
+    color: '',
+  },
+  'flash': {
+    id: 'flash',
+    name: '短編',
+    readTime: '5分以内',
+    charsCount: '〜2,000文字',
+    color: 'orange',
+  },
+  'shortshort': {
+    id: 'shortshort',
+    name: '短編',
+    readTime: '10分以内',
+    charsCount: '2,000〜4,000文字',
+    color: 'pink',
+  },
+  'short': {
+    id: 'short',
+    name: '短編',
+    readTime: '30分以内',
+    charsCount: '4,000〜12,000文字',
+    color: 'blue',
+  },
+  'novelette': {
+    id: 'novelette',
+    name: '中編',
+    readTime: '60分以内',
+    charsCount: '12,000〜24,000文字',
+    color: 'green',
+  },
+  'novel': {
+    id: 'novel',
+    name: '長編',
+    readTime: '1時間〜',
+    charsCount: '24,000文字〜',
+    color: '',
   }
 }

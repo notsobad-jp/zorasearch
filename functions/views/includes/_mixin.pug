@@ -1,0 +1,14 @@
+mixin stars(pv)
+  span
+    if pv >= 10000
+      i.fas.fa-star.yellow
+      | &nbsp;
+    if pv >= 500
+      i.fas.fa-star.yellow
+      | &nbsp;
+    if pv >= 1
+      i.fas.fa-star.yellow
+        
+mixin categoryLabel(categoryId)
+  - category = categoryMaster[categoryId]
+  .ui.basic.mini.label(class=category.color)= category.readTime
