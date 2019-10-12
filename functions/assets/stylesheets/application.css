@@ -392,6 +392,6 @@ footer .ui.list>a.item { color: #fff; }
 h3.ui.header { font-size: 1.28571429rem; }
 
 @media only screen and (max-width: 767px) {
-  .scrolling { flex-wrap: nowrap !important; overflow-x: scroll !important; -webkit-overflow-scrolling: touch !important; overflow-scrolling: touch !important; }
-  .scrolling>.ui.card { flex: 0 0 60% !important; }
+  .scrolling.ui.cards { flex-wrap: nowrap; overflow-x: scroll; -webkit-overflow-scrolling: touch; overflow-scrolling: touch; }
+  .scrolling>.ui.card { flex: 0 0 60%; }
 }
