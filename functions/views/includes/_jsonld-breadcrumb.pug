@@ -9,5 +9,9 @@ script(type="application/ld+json")
     |     "position": #{ index + 1 },
     |     "name": "#{ bread.name }",
     |     "item": "#{ bread.item }"
-    |   },
+    if index == (breadcrumb.length - 1)
+      | }
+    else
+      | },
   |   ]
+  | }
